@@ -42,5 +42,7 @@ if (errors.length) {
   process.exit(1);
 }
 
-await writeMarket(series, { source: `${[...used].join(' + ')} (daily bars, Euronext Paris, EUR)` });
+const payload = await writeMarket(series, { source: `${[...used].join(' + ')} (daily bars, Euronext Paris, EUR)` });
+for (const [id, m] of Object.entries(payload.etfs))
+  console.log(`perf ${id.padEnd(10)} 1M from ${m.perfBase.m1}  3M from ${m.perfBase.m3}  1Y from ${m.perfBase.y1}`);
 console.log('market.json written');

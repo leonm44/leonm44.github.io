@@ -50,6 +50,9 @@ const stats = [
             </div>
           ))}
         </dl>
+        <p class="faint base">
+          Performance from the closes of {m.perfBase.m1} (1M), {m.perfBase.m3} (3M) and {m.perfBase.y1} (1Y).
+        </p>
       </div>
       <div class="panel">
         <h3>What the indicators say</h3>
@@ -87,5 +90,6 @@ const stats = [
   .reading li { margin-bottom: 8px; }
   .pattern { font-size: 0.92rem; }
   .auto { font-size: 0.78rem; margin: 0; }
+  .base { font-size: 0.76rem; margin: 10px 0 0; }
   @media (max-width: 920px) { .layout { grid-template-columns: 1fr; } }
 </style>

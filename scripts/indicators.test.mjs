@@ -77,3 +77,13 @@ test('Performance is not double-rounded (S&P 500 3M case: +4.6455% must display 
   assert.equal(+p.toFixed(6), 0.046455);
   assert.equal((+p.toFixed(6) * 100).toFixed(1), '4.6');
 });
+
+import { closeMonthsAgo } from './lib/analyze.mjs';
+
+test('closeMonthsAgo uses calendar dates and falls back to the previous session', () => {
+  const bars = ['2026-07-16', '2026-07-17', '2026-09-15', '2026-09-16', '2026-10-15', '2026-10-16'].map((d, i) => ({ d, c: 100 + i }));
+  assert.equal(closeMonthsAgo(bars, 1).d, '2026-09-16');
+  assert.equal(closeMonthsAgo(bars, 3).d, '2026-07-16');
+  const eom = [{ d: '2026-02-27', c: 1 }, { d: '2026-03-02', c: 2 }, { d: '2026-03-31', c: 3 }];
+  assert.equal(closeMonthsAgo(eom, 1).d, '2026-02-27'); // 31 Mar -> 28 Feb (Sat) -> 27 Feb
+});

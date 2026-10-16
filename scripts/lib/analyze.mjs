@@ -16,6 +16,22 @@ function closeAgo(bars, n) {
   return i >= 0 ? bars[i].c : null;
 }
 
+/**
+ * Close on the last session on or before the same calendar day `months` earlier
+ * (e.g. 16 Oct -> 16 Sep for 1M). Standard convention used by fund factsheets,
+ * and robust to missing or extra rows in the source file.
+ */
+export function closeMonthsAgo(bars, months) {
+  const last = new Date(`${bars.at(-1).d}T00:00:00Z`);
+  const target = new Date(last);
+  target.setUTCMonth(target.getUTCMonth() - months);
+  // 31 Mar - 1M must give 28/29 Feb, not 3 Mar
+  if (target.getUTCDate() !== last.getUTCDate()) target.setUTCDate(0);
+  const t = target.toISOString().slice(0, 10);
+  for (let i = bars.length - 1; i >= 0; i--) if (bars[i].d <= t) return { d: bars[i].d, c: bars[i].c };
+  return null;
+}
+
 /** Last close of the previous calendar year, for YTD. */
 function lastCloseBeforeYear(bars, year) {
   for (let i = bars.length - 1; i >= 0; i--) {
@@ -123,12 +139,15 @@ export function analyze(bars) {
   const r = rsi(closes, 14);
   const m = macd(closes);
 
+  const b1 = closeMonthsAgo(bars, 1);
+  const b3 = closeMonthsAgo(bars, 3);
+  const b12 = closeMonthsAgo(bars, 12);
   const perf = {
     d1: pct(last.c, closeAgo(bars, 1)),
-    m1: pct(last.c, closeAgo(bars, 21)),
-    m3: pct(last.c, closeAgo(bars, 63)),
+    m1: pct(last.c, b1?.c),
+    m3: pct(last.c, b3?.c),
     ytd: pct(last.c, lastCloseBeforeYear(bars, year)),
-    y1: pct(last.c, closeAgo(bars, 252)),
+    y1: pct(last.c, b12?.c),
   };
 
   const metrics = {
@@ -175,5 +194,6 @@ export function analyze(bars) {
   for (const k of ['vol', 'mdd1y', 'sma50', 'sma200', 'rsi', 'macd', 'macdSignal', 'macdHist']) metrics[k] = round(metrics[k], 6);
   for (const k of Object.keys(perf)) perf[k] = round(perf[k], 6);
 
+  metrics.perfBase = { m1: b1?.d ?? null, m3: b3?.d ?? null, y1: b12?.d ?? null };
   return { ...metrics, chart, spark };
 }
