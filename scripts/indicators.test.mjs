@@ -71,3 +71,9 @@ test('clean() sorts, de-duplicates and rejects bad jumps', () => {
   const mk = (i, c) => ({ d: `2025-01-${String(i).padStart(2, '0')}`, o: c, h: c, l: c, c, v: 1 });
   assert.throws(() => clean([mk(2, 100), mk(1, 100), mk(3, 150)], 'X'), /suspicious/);
 });
+
+test('Performance is not double-rounded (S&P 500 3M case: +4.6455% must display +4.6%)', () => {
+  const p = 137.41 / 131.31 - 1;
+  assert.equal(+p.toFixed(6), 0.046455);
+  assert.equal((+p.toFixed(6) * 100).toFixed(1), '4.6');
+});

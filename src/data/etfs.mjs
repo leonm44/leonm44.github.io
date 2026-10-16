@@ -17,7 +17,7 @@ export const ETFS = [
     kind: 'ETF',
     replication: 'Synthetic (swap)',
     blurb:
-      'More than 1,300 large and mid-cap companies across 23 developed countries. The default "one-fund" building block: roughly 70% US, then Japan, the UK and Europe.',
+      'About 1,250 large and mid-cap companies across 23 developed countries. The default "one-fund" building block: about two-thirds United States, then Japan, the UK and Canada.',
   },
   {
     id: 'sp500',
