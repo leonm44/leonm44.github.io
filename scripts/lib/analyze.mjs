@@ -169,9 +169,11 @@ export function analyze(bars) {
 
   const spark = bars.slice(-SPARK_BARS).map((b) => b.c);
 
-  // Round scalar metrics for a compact JSON file.
-  for (const k of ['vol', 'mdd1y', 'sma50', 'sma200', 'rsi', 'macd', 'macdSignal', 'macdHist']) metrics[k] = round(metrics[k]);
-  for (const k of Object.keys(perf)) perf[k] = round(perf[k]);
+  // Round scalar metrics for a compact JSON file. Keep 6 decimals: rounding to
+  // 4 then displaying with 1 decimal in % caused double-rounding errors
+  // (e.g. +4.6455% stored as 0.0465 and shown as +4.7%).
+  for (const k of ['vol', 'mdd1y', 'sma50', 'sma200', 'rsi', 'macd', 'macdSignal', 'macdHist']) metrics[k] = round(metrics[k], 6);
+  for (const k of Object.keys(perf)) perf[k] = round(perf[k], 6);
 
   return { ...metrics, chart, spark };
 }
