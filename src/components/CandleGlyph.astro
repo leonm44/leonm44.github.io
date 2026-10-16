@@ -1,0 +1,32 @@
+---
+// Small illustrative candle group. Values are on an arbitrary 0-100 scale.
+interface C { o: number; h: number; l: number; c: number; ghost?: boolean }
+interface Props { candles: C[]; label: string }
+const { candles, label } = Astro.props;
+const W = 40 + candles.length * 34;
+const H = 130;
+const y = (v: number) => H - 10 - (v / 100) * (H - 20);
+---
+
+<svg viewBox={`0 0 ${W} ${H}`} class="glyph" role="img" aria-label={label}>
+  {
+    candles.map((k, i) => {
+      const x = 32 + i * 34;
+      const up = k.c >= k.o;
+      return (
+        <g class={`${up ? 'u' : 'd'} ${k.ghost ? 'ghost' : ''}`}>
+          <line x1={x} x2={x} y1={y(k.h)} y2={y(k.l)} />
+          <rect x={x - 9} width="18" y={y(Math.max(k.o, k.c))} height={Math.max(2, Math.abs(y(k.o) - y(k.c)))} rx="2" />
+        </g>
+      );
+    })
+  }
+</svg>
+
+<style>
+  .glyph { width: 100%; max-width: 220px; height: 130px; display: block; margin: 0 auto; }
+  line { stroke-width: 2; }
+  .u line, .u rect { stroke: var(--up); fill: var(--up); }
+  .d line, .d rect { stroke: var(--down); fill: var(--down); }
+  .ghost { opacity: 0.35; }
+</style>

@@ -1,0 +1,91 @@
+---
+import CandleChart from './CandleChart.astro';
+import { pct, eur, num, tone, url } from '../lib/format';
+
+interface Props {
+  etf: any;
+  m: any;
+}
+const { etf, m } = Astro.props;
+const stats = [
+  { k: 'Last close', v: eur(m.last) },
+  { k: '1 month', v: pct(m.perf.m1), t: tone(m.perf.m1) },
+  { k: '3 months', v: pct(m.perf.m3), t: tone(m.perf.m3) },
+  { k: 'Year to date', v: pct(m.perf.ytd), t: tone(m.perf.ytd) },
+  { k: '1 year', v: pct(m.perf.y1), t: tone(m.perf.y1) },
+  { k: 'Volatility (3M, ann.)', v: m.vol === null ? '—' : `${(m.vol * 100).toFixed(1)}%` },
+  { k: 'Max drawdown (1Y)', v: pct(m.mdd1y), t: 'down' },
+  { k: '52-week range', v: `${num(m.low52)} – ${num(m.high52)}` },
+];
+---
+
+<article id={etf.id} class="detail">
+  <header class="dh">
+    <div>
+      <div class="eyebrow">{etf.ticker} · {etf.isin}</div>
+      <h2>{etf.short}</h2>
+      <p class="muted name">{etf.name}</p>
+    </div>
+    <div class="facts mono">
+      <span class="pill">{etf.kind}</span>
+      <span class="pill">Index: {etf.index}</span>
+      <span class="pill">{etf.replication}</span>
+    </div>
+  </header>
+
+  <p class="blurb">{etf.blurb}</p>
+
+  <div class="layout">
+    <div class="panel chart-panel">
+      <CandleChart bars={m.chart} label={etf.short} />
+    </div>
+    <aside class="side">
+      <div class="panel">
+        <h3>Key numbers</h3>
+        <dl class="stats">
+          {stats.map((s) => (
+            <div>
+              <dt>{s.k}</dt>
+              <dd class={`mono ${s.t ?? ''}`}>{s.v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+      <div class="panel">
+        <h3>What the indicators say</h3>
+        <ul class="reading">
+          {m.summary.map((line: string) => <li>{line}</li>)}
+        </ul>
+        {
+          m.pattern && (
+            <p class="pattern">
+              Last candle: <a href={url(`/candlesticks#${m.pattern.id.replace(/-(bull|bear)$/, '')}`)}>{m.pattern.name}</a>
+            </p>
+          )
+        }
+        <p class="faint auto">Generated automatically from the rules described in <a href={url('/methodology')}>Methodology</a>. Data as of {m.asOf}.</p>
+      </div>
+    </aside>
+  </div>
+</article>
+
+<style>
+  .detail { scroll-margin-top: 90px; }
+  .dh { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+  .dh h2 { margin-bottom: 4px; }
+  .name { margin: 0; font-size: 0.95rem; }
+  .facts { display: flex; gap: 8px; flex-wrap: wrap; }
+  .blurb { max-width: 75ch; margin: 18px 0 22px; }
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 18px; align-items: start; }
+  .chart-panel { padding: 16px; }
+  .side { display: grid; gap: 18px; }
+  .stats { margin: 0; display: grid; gap: 8px; }
+  .stats div { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+  .stats dt { color: var(--muted); font-size: 0.9rem; }
+  .stats dd { margin: 0; font-weight: 600; }
+  .reading { margin: 0 0 12px; padding-left: 18px; font-size: 0.92rem; }
+  .reading li { margin-bottom: 8px; }
+  .pattern { font-size: 0.92rem; }
+  .auto { font-size: 0.78rem; margin: 0; }
+  @media (max-width: 920px) { .layout { grid-template-columns: 1fr; } }
+</style>

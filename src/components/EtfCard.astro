@@ -1,0 +1,48 @@
+---
+import Sparkline from './Sparkline.astro';
+import { pct, eur, tone, url } from '../lib/format';
+
+interface Props {
+  etf: { id: string; sleeve: string; ticker: string; short: string; kind: string };
+  m: any;
+}
+const { etf, m } = Astro.props;
+const trendTone = m.trend === 'Uptrend' ? 'up' : m.trend === 'Downtrend' ? 'down' : '';
+---
+
+<a class="card panel" href={url(`/${etf.sleeve}#${etf.id}`)}>
+  <div class="head">
+    <div>
+      <div class="name">{etf.short}</div>
+      <div class="sub mono">{etf.ticker} · {etf.kind} · {etf.sleeve}</div>
+    </div>
+    <div class="price">
+      <div class="mono">{eur(m.last)}</div>
+      <div class={`mono small ${tone(m.perf.d1)}`}>{pct(m.perf.d1, 2)} 1D</div>
+    </div>
+  </div>
+  <Sparkline values={m.spark} />
+  <dl class="perf">
+    <div><dt>1M</dt><dd class={tone(m.perf.m1)}>{pct(m.perf.m1)}</dd></div>
+    <div><dt>YTD</dt><dd class={tone(m.perf.ytd)}>{pct(m.perf.ytd)}</dd></div>
+    <div><dt>1Y</dt><dd class={tone(m.perf.y1)}>{pct(m.perf.y1)}</dd></div>
+  </dl>
+  <div class="tags">
+    <span class={`pill ${trendTone}`}>{m.trend}</span>
+    <span class="pill">RSI {m.rsi?.toFixed(0)} · {m.rsiZone}</span>
+  </div>
+</a>
+
+<style>
+  .card { display: flex; flex-direction: column; gap: 14px; color: var(--text); transition: border-color 0.2s, transform 0.2s; }
+  .card:hover { text-decoration: none; border-color: rgba(167, 139, 250, 0.55); transform: translateY(-2px); }
+  .head { display: flex; justify-content: space-between; gap: 12px; }
+  .name { font-weight: 700; font-size: 1.08rem; }
+  .sub { color: var(--faint); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .price { text-align: right; }
+  .small { font-size: 0.8rem; }
+  .perf { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; gap: 8px; }
+  .perf dt { font-size: 0.72rem; color: var(--faint); font-family: var(--mono); }
+  .perf dd { margin: 0; font-family: var(--mono); font-weight: 600; }
+  .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+</style>

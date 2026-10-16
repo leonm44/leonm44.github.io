@@ -1,0 +1,21 @@
+---
+import SleevePage from '../components/SleevePage.astro';
+---
+
+<SleevePage sleeve="core" description="MSCI World, S&P 500 and STOXX Europe 600: daily candlestick charts, moving averages, RSI and MACD.">
+  <Fragment slot="intro">
+    <p class="lead">
+      Three broad equity indices that, between them, cover most of the world's listed companies by value. They are the
+      kind of funds a long-term investor holds for decades.
+    </p>
+    <div class="note">
+      <strong>Watch the overlap.</strong> The United States weighs roughly 70% of the MSCI World, so holding both the
+      MSCI World and the S&amp;P 500 doubles down on American large caps. The STOXX Europe 600 rebalances towards
+      Europe. Knowing what overlaps is the first step in understanding real diversification.
+    </div>
+  </Fragment>
+</SleevePage>
+
+<style>
+  .note { max-width: 78ch; margin-top: 8px; }
+</style>

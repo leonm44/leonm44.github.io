@@ -1,0 +1,124 @@
+---
+import Base from '../layouts/Base.astro';
+import EtfCard from '../components/EtfCard.astro';
+import market from '../data/market.json';
+import { ETFS, SLEEVES } from '../data/etfs.mjs';
+import { pct, eur, tone, url, longDate } from '../lib/format';
+
+const m = market.etfs as Record<string, any>;
+const asOf = m[ETFS[0].id].asOf;
+const rows = ETFS.map((e) => ({ e, x: m[e.id] }));
+const best = [...rows].sort((a, b) => b.x.perf.y1 - a.x.perf.y1)[0];
+const uptrends = rows.filter((r) => r.x.trend === 'Uptrend').length;
+---
+
+<Base title="Home" description="A daily dashboard of six euro-listed ETFs, with candlestick charts, technical indicators and plain-English explanations.">
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Six ETFs · one compass · updated every trading day</div>
+      <h1>Understand the markets<br /><span class="gradient-text">one candle at a time.</span></h1>
+      <p class="lead">
+        Leon Market Compass follows three core ETFs and three satellites listed in euros on Euronext Paris. Each evening
+        a small data pipeline downloads the day's prices, computes the classic indicators and rebuilds this site.
+      </p>
+      <div class="cta">
+        <a class="btn" href={url('/core')}>Explore the core</a>
+        <a class="btn ghost" href={url('/candlesticks')}>How to read a candle</a>
+      </div>
+      <div class="kpis">
+        <div><span class="faint">Last session</span><b>{longDate(asOf)}</b></div>
+        <div><span class="faint">In an uptrend</span><b>{uptrends} / {rows.length}</b></div>
+        <div><span class="faint">Best over 1 year</span><b>{best.e.short} <span class={tone(best.x.perf.y1)}>{pct(best.x.perf.y1)}</span></b></div>
+      </div>
+    </div>
+  </section>
+
+  {
+    (['core', 'satellite'] as const).map((s) => (
+      <section class="section">
+        <div class="wrap">
+          <div class="sec-head">
+            <div>
+              <div class="eyebrow">{SLEEVES[s].title}</div>
+              <h2>{SLEEVES[s].tagline}</h2>
+            </div>
+            <a href={url(`/${s}`)}>Full charts →</a>
+          </div>
+          <div class="grid grid-3">
+            {rows.filter((r) => r.e.sleeve === s).map((r) => <EtfCard etf={r.e} m={r.x} />)}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="section">
+    <div class="wrap">
+      <div class="eyebrow">Side by side</div>
+      <h2>The whole universe at a glance</h2>
+      <div class="panel table-scroll">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>ETF</th><th>Last</th><th>1M</th><th>YTD</th><th>1Y</th><th>Volatility</th><th>Max DD 1Y</th><th>RSI</th><th>Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              rows.map(({ e, x }) => (
+                <tr>
+                  <td><a href={url(`/${e.sleeve}#${e.id}`)}>{e.short}</a> <span class="faint mono">{e.ticker}</span></td>
+                  <td class="num">{eur(x.last)}</td>
+                  <td class={`num ${tone(x.perf.m1)}`}>{pct(x.perf.m1)}</td>
+                  <td class={`num ${tone(x.perf.ytd)}`}>{pct(x.perf.ytd)}</td>
+                  <td class={`num ${tone(x.perf.y1)}`}>{pct(x.perf.y1)}</td>
+                  <td class="num">{x.vol === null ? '—' : `${(x.vol * 100).toFixed(1)}%`}</td>
+                  <td class="num down">{pct(x.mdd1y)}</td>
+                  <td class="num">{x.rsi?.toFixed(0)}</td>
+                  <td>{x.trend}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="faint small">
+        Volatility: annualised standard deviation of daily returns over the last 3 months. Max DD: largest peak-to-trough
+        fall over the last 12 months. Definitions in <a href={url('/methodology')}>Methodology</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid grid-2">
+      <div class="panel">
+        <div class="eyebrow">Why core &amp; satellite?</div>
+        <h3>A simple way to build a portfolio</h3>
+        <p class="muted">
+          Most of the money sits in a few broad, cheap index funds (the core). Smaller positions (the satellites) add
+          exposure to regions or assets that behave differently: emerging economies, or gold. The point is not to beat
+          the market every year, but to know exactly what you own and why.
+        </p>
+      </div>
+      <div class="panel">
+        <div class="eyebrow">ETF in one sentence</div>
+        <h3>A basket you can buy like a single share</h3>
+        <p class="muted">
+          An Exchange-Traded Fund holds (or replicates) a whole index, so one purchase gives you hundreds of companies.
+          It trades on a stock exchange all day, at low cost. Gold here is an ETC, a cousin backed by physical bars.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 72px 0 56px; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; margin: 26px 0 40px; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+  .kpis div { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: rgba(21, 25, 38, 0.6); display: grid; gap: 2px; }
+  .kpis span { font-size: 0.8rem; }
+  .sec-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+  .sec-head h2 { margin: 0; }
+  .small { font-size: 0.82rem; margin-top: 10px; }
+</style>

@@ -1,0 +1,73 @@
+---
+import SleevePage from '../components/SleevePage.astro';
+import market from '../data/market.json';
+import { byId } from '../data/etfs.mjs';
+
+const { ids, matrix, sessions } = market.correlation;
+const cell = (v: number) => {
+  // diverging scale: blue for negative, violet for positive
+  const a = Math.min(1, Math.abs(v));
+  return v >= 0 ? `rgba(167, 139, 250, ${0.08 + a * 0.62})` : `rgba(96, 165, 250, ${0.08 + a * 0.62})`;
+};
+const goldIdx = ids.indexOf('gold');
+const worldIdx = ids.indexOf('msci-world');
+const goldWorld = goldIdx >= 0 && worldIdx >= 0 ? matrix[goldIdx][worldIdx] : null;
+---
+
+<SleevePage sleeve="satellite" description="Emerging Asia, emerging Latin America and physical gold: charts, indicators and how they diversify a core portfolio.">
+  <Fragment slot="intro">
+    <p class="lead">
+      Satellites are smaller positions around the core. Emerging markets add growth potential (and volatility); gold
+      adds an asset that often moves on its own when equities are under stress.
+    </p>
+  </Fragment>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="eyebrow">Diversification, measured</div>
+      <h2>How much do these six move together?</h2>
+      <p class="muted lead">
+        Correlation of daily returns over the last {sessions} sessions. 1 means two assets move in lockstep, 0 means no
+        linear relationship, negative values mean they tend to move in opposite directions.
+        {goldWorld !== null && <> Here, gold vs MSCI World: <b class="mono">{goldWorld.toFixed(2)}</b>.</>}
+      </p>
+      <div class="panel table-scroll">
+        <table class="corr">
+          <thead>
+            <tr>
+              <th></th>
+              {ids.map((id) => <th scope="col">{byId[id].ticker}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              ids.map((row, i) => (
+                <tr>
+                  <th scope="row">{byId[row].short}</th>
+                  {matrix[i].map((v, j) => (
+                    <td style={`background:${cell(v)}`} class={i === j ? 'diag' : ''}>
+                      {v.toFixed(2)}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="faint small">
+        Correlation is not stable: it tends to rise during crises, exactly when diversification is needed most. Formula in
+        Methodology.
+      </p>
+    </div>
+  </section>
+</SleevePage>
+
+<style>
+  .corr { border-collapse: separate; border-spacing: 4px; width: 100%; min-width: 620px; }
+  .corr th { font: 600 0.78rem var(--mono); color: var(--muted); text-align: center; padding: 4px; }
+  .corr tbody th { text-align: left; color: var(--text); font-family: var(--sans); font-size: 0.88rem; white-space: nowrap; }
+  .corr td { text-align: center; font: 600 0.85rem var(--mono); padding: 12px 6px; border-radius: 8px; }
+  .corr td.diag { color: var(--faint); }
+  .small { font-size: 0.82rem; margin-top: 10px; }
+</style>
