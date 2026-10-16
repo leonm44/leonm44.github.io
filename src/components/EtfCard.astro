@@ -10,7 +10,7 @@ const { etf, m } = Astro.props;
 const trendTone = m.trend === 'Uptrend' ? 'up' : m.trend === 'Downtrend' ? 'down' : '';
 ---
 
-<a class="card panel" href={url(`/${etf.sleeve}#${etf.id}`)}>
+<a class="card panel" data-etf={etf.id} href={url(`/${etf.sleeve}#${etf.id}`)}>
   <div class="head">
     <div>
       <div class="name">{etf.short}</div>

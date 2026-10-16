@@ -50,3 +50,24 @@ test('Bullish engulfing detection', () => {
   ]);
   assert.equal(p.id, 'bullish-engulfing');
 });
+
+import { parseEuronextCsv, clean } from './lib/sources.mjs';
+
+test('Euronext CSV parser (real format, extra trailing column, d/m/Y dates)', () => {
+  const csv = [
+    '"Historical Data"',
+    '"From 2026-10-01 to 2026-10-16"',
+    'LU1681043599',
+    'Date;Open;High;Low;Last;Close;"Number of Shares";"Number of Trades";Turnover',
+    '16/10/2026;711.97;712.93;709.00;709.55;709.55;13463;629;9580622;711.6261',
+    '15/10/2026;706.65;711.94;705.03;710.53;710.53;10005;1135;7083013;707.94736',
+  ].join('\n');
+  const bars = parseEuronextCsv(csv);
+  assert.equal(bars.length, 2);
+  assert.deepEqual(bars[0], { d: '2026-10-16', o: 711.97, h: 712.93, l: 709, c: 709.55, v: 13463 });
+});
+
+test('clean() sorts, de-duplicates and rejects bad jumps', () => {
+  const mk = (i, c) => ({ d: `2025-01-${String(i).padStart(2, '0')}`, o: c, h: c, l: c, c, v: 1 });
+  assert.throws(() => clean([mk(2, 100), mk(1, 100), mk(3, 150)], 'X'), /suspicious/);
+});

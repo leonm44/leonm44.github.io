@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import EtfCard from '../components/EtfCard.astro';
+import WorldMap from '../components/WorldMap.astro';
 import market from '../data/market.json';
 import { ETFS, SLEEVES } from '../data/etfs.mjs';
 import { pct, eur, tone, url, longDate } from '../lib/format';
@@ -44,6 +45,7 @@ const uptrends = rows.filter((r) => r.x.trend === 'Uptrend').length;
             </div>
             <a href={url(`/${s}`)}>Full charts →</a>
           </div>
+          {s === 'core' && <WorldMap metrics={m} />}
           <div class="grid grid-3">
             {rows.filter((r) => r.e.sleeve === s).map((r) => <EtfCard etf={r.e} m={r.x} />)}
           </div>

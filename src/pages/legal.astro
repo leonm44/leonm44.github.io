@@ -1,0 +1,183 @@
+---
+// Legal notice (LCEN, France) + financial disclaimer, in English and French.
+// Linked from the footer only: it is not part of the five content pages.
+import Base from '../layouts/Base.astro';
+import { ETFS } from '../data/etfs.mjs';
+
+const UPDATED = '16 October 2026';
+const MAJ = '16 octobre 2026';
+const REPO = 'https://github.com/leonm44/leonm44.github.io';
+---
+
+<Base title="Legal notice" description="Legal notice, financial disclaimer, data sources, trademarks and privacy of Leon Market Compass.">
+  <section class="intro">
+    <div class="wrap">
+      <div class="eyebrow">Legal</div>
+      <h1>Legal notice &amp; disclaimer</h1>
+      <p class="lead">
+        Leon Market Compass is a personal, non-commercial and educational website. Please read this page before relying
+        on anything you see here. <a href="#fr">Version française plus bas.</a>
+      </p>
+      <p class="faint small">Last updated: {UPDATED}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap doc">
+      <div class="callout">
+        <h2>Not investment advice</h2>
+        <p>
+          The content of this site is provided for <strong>educational and informational purposes only</strong>. It is not
+          investment advice, not a personalised recommendation, not financial, legal or tax advice, and not an offer or
+          solicitation to buy or sell any financial instrument. Labels such as "uptrend", "overbought" or "momentum
+          improving" are the mechanical output of fixed formulas applied to past prices; they say nothing about future
+          prices and do not take anyone's situation, objectives or risk tolerance into account.
+        </p>
+        <p>
+          The author is not a licensed investment adviser (not registered as a CIF with the French AMF or on the ORIAS
+          register) and is not affiliated with any of the issuers, index providers or exchanges mentioned. Before any
+          investment decision, read the issuer's official documents (KID, prospectus) and, if needed, consult a
+          licensed professional.
+        </p>
+      </div>
+
+      <h2>Risks</h2>
+      <ul>
+        <li>Investing in ETFs and ETCs involves a <strong>risk of capital loss</strong>. Past performance does not predict future returns.</li>
+        <li>Products exposed to non-euro markets carry <strong>currency risk</strong>, even when they are quoted in euros.</li>
+        <li>Synthetic (swap-based) ETFs carry <strong>counterparty risk</strong>; an ETC is a debt security that carries <strong>issuer risk</strong>.</li>
+        <li>Emerging markets and gold can be <strong>highly volatile</strong>.</li>
+      </ul>
+
+      <h2>Data and accuracy</h2>
+      <p>
+        Prices are end-of-day data from Euronext's public historical price service (Yahoo Finance as a fallback), downloaded
+        automatically once per trading day. They may be delayed, incomplete or wrong, and every derived figure
+        (performance, indicators, correlations, summaries) inherits these errors. The site is provided "as is", without any
+        warranty of accuracy, completeness or availability. To the extent permitted by law, the author accepts no
+        liability for any decision taken or loss suffered on the basis of this site.
+      </p>
+      <p>
+        Market data © Euronext and the respective data providers. The data is displayed for non-commercial educational
+        purposes; all rights remain with their owners.
+      </p>
+
+      <h2>Trademarks</h2>
+      <p>
+        "MSCI", "MSCI World" and "MSCI Emerging Markets" are trademarks of MSCI Inc. "S&amp;P 500" is a trademark of S&amp;P
+        Global / S&amp;P Dow Jones Indices LLC. "STOXX" and "STOXX Europe 600" are trademarks of STOXX Ltd. "Amundi" is a
+        trademark of Amundi Asset Management. "Euronext" is a trademark of Euronext N.V. "LBMA" is a trademark of the
+        London Bullion Market Association. These names are used only to identify the products discussed. This site is not
+        sponsored, endorsed or reviewed by any of these companies.
+      </p>
+      <p class="muted">
+        Products mentioned: {ETFS.map((e) => `${e.name} (${e.isin})`).join('; ')}.
+      </p>
+
+      <h2>Privacy</h2>
+      <p>
+        This site sets <strong>no cookies</strong>, uses <strong>no analytics or tracking</strong>, and loads no third-party
+        scripts or fonts: everything is served from the site itself. It does not collect any personal data. Like any web
+        host, GitHub records technical connection data (such as IP addresses) in its server logs for security purposes;
+        see the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">GitHub General Privacy Statement</a>.
+      </p>
+
+      <h2>Publisher, hosting and contact</h2>
+      <p>
+        Publisher: a private individual, acting in a non-professional capacity. Hosting: GitHub, Inc. (details in the
+        French section below). Contact: open an issue on the site's
+        <a href={`${REPO}/issues`} rel="noopener">GitHub repository</a>.
+      </p>
+
+      <h2>Intellectual property</h2>
+      <p>
+        Texts, charts and code of this site © 2026 the author, unless stated otherwise. The source code is publicly
+        visible on <a href={REPO} rel="noopener">GitHub</a>. Third-party names and data remain the property of their owners.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="fr" lang="fr">
+    <div class="wrap doc">
+      <div class="eyebrow">Version française</div>
+      <h2 class="big">Mentions légales</h2>
+      <p class="faint small">Dernière mise à jour : {MAJ}</p>
+
+      <h3>Éditeur</h3>
+      <p>
+        Le site Leon Market Compass est édité par une personne physique, à titre non professionnel et sans but
+        commercial. Conformément à l'article 1-1, II de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans
+        l'économie numérique (LCEN), l'éditeur a choisi de préserver son anonymat ; ses éléments d'identification ont été
+        communiqués à l'hébergeur.
+      </p>
+      <p>Contact : via les <a href={`${REPO}/issues`} rel="noopener">issues du dépôt GitHub</a> du site.</p>
+
+      <h3>Hébergeur</h3>
+      <p class="address">
+        GitHub, Inc.<br />
+        88 Colin P. Kelly Jr. Street<br />
+        San Francisco, CA 94107, États-Unis<br />
+        Téléphone : +1 877 448 4820<br />
+        <a href="https://github.com" rel="noopener">github.com</a>
+      </p>
+
+      <h3>Avertissement : ceci n'est pas un conseil en investissement</h3>
+      <p>
+        Les informations publiées sur ce site ont un objectif exclusivement <strong>pédagogique et informatif</strong>.
+        Elles ne constituent ni un conseil en investissement, ni une recommandation personnalisée, ni un conseil
+        juridique ou fiscal, ni une offre ou une sollicitation d'achat ou de vente d'instruments financiers. Les
+        indications telles que « tendance haussière » ou « surachat » résultent de règles de calcul fixes appliquées à
+        des cours passés et ne préjugent pas de l'évolution future des marchés.
+      </p>
+      <p>
+        L'auteur n'est pas conseiller en investissements financiers (CIF), n'est pas enregistré auprès de l'AMF ni de
+        l'ORIAS, et n'a aucun lien avec les émetteurs, fournisseurs d'indices ou marchés cités. Tout investissement
+        comporte un <strong>risque de perte en capital</strong> ; les performances passées ne préjugent pas des
+        performances futures. Avant toute décision, consultez les documents officiels de l'émetteur (DIC, prospectus) et,
+        si besoin, un professionnel agréé.
+      </p>
+
+      <h3>Données et responsabilité</h3>
+      <p>
+        Les cours sont des données de clôture issues du service public d'historique de cours d'Euronext (Yahoo Finance
+        en secours), récupérées automatiquement chaque jour de bourse. Elles peuvent être inexactes, incomplètes ou
+        retardées. Le site est fourni « en l'état », sans garantie d'exactitude ni de disponibilité. Dans les limites
+        permises par la loi, l'éditeur ne saurait être tenu responsable des décisions prises ou des pertes subies sur la
+        base de son contenu.
+      </p>
+
+      <h3>Propriété intellectuelle et marques</h3>
+      <p>
+        Les textes, graphiques et le code du site sont la propriété de l'auteur, sauf mention contraire. MSCI, S&amp;P 500,
+        STOXX, Amundi, Euronext et LBMA sont des marques de leurs propriétaires respectifs, citées uniquement pour
+        identifier les produits présentés ; le site n'est ni sponsorisé ni approuvé par ces sociétés.
+      </p>
+
+      <h3>Données personnelles et cookies</h3>
+      <p>
+        Le site ne dépose <strong>aucun cookie</strong>, n'utilise aucun outil de mesure d'audience ou de suivi et ne
+        charge aucune ressource tierce (polices et scripts sont hébergés sur le site). Il ne collecte aucune donnée
+        personnelle. L'hébergeur GitHub enregistre des données techniques de connexion (adresse IP notamment) dans ses
+        journaux serveur, conformément à sa <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">déclaration de confidentialité</a>.
+        Pour toute question, vous pouvez utiliser le contact ci-dessus ; vous disposez aussi du droit d'introduire une
+        réclamation auprès de la CNIL.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro { padding: 64px 0 32px; }
+  .small { font-size: 0.85rem; }
+  .doc { max-width: 78ch; }
+  .doc h2 { margin-top: 36px; font-size: 1.4rem; }
+  .doc h2.big { margin-top: 0; font-size: clamp(1.6rem, 3vw, 2.1rem); }
+  .doc h3 { margin-top: 28px; }
+  .doc ul { padding-left: 20px; }
+  .doc li { margin-bottom: 6px; }
+  .callout { border: 1px solid rgba(251, 191, 36, 0.4); background: rgba(251, 191, 36, 0.06); border-radius: var(--radius); padding: 20px 22px; }
+  .callout h2 { margin-top: 0; color: #fcd34d; }
+  .callout p:last-child { margin-bottom: 0; }
+  .address { font-family: var(--mono); font-size: 0.92rem; line-height: 1.7; }
+  #fr { scroll-margin-top: 80px; }
+</style>

@@ -12,7 +12,6 @@
 - [ ] Publish the repository `leonm44.github.io` and enable GitHub Pages (Settings → Pages → Source: GitHub Actions)
 - [ ] Check the first real-data run (tickers, EUR prices, no gaps)
 - [ ] About section: LinkedIn link and/or CV in PDF
-- [ ] Fallback data source if Yahoo Finance changes its endpoint (e.g. Stooq, EODHD free tier)
 - [ ] Keep a history of daily data in the repository to remove the dependency on a single fetch
 
 ## Ideas

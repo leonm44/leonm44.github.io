@@ -10,12 +10,12 @@ import { writeMarket } from './lib/write-market.mjs';
 // rho = loading on a shared "equity market" shock, so the simulated
 // correlation matrix looks plausible.
 const PARAMS = {
-  'msci-world': { s0: 520, mu: 0.09, sigma: 0.14, rho: 0.95 },
-  sp500: { s0: 95, mu: 0.1, sigma: 0.17, rho: 0.9 },
-  'stoxx-600': { s0: 230, mu: 0.07, sigma: 0.15, rho: 0.75 },
-  'em-asia': { s0: 45, mu: 0.06, sigma: 0.2, rho: 0.6 },
-  'em-latam': { s0: 15, mu: 0.05, sigma: 0.26, rho: 0.5 },
-  gold: { s0: 170, mu: 0.12, sigma: 0.16, rho: 0.1 },
+  'msci-world': { s0: 600, mu: 0.09, sigma: 0.14, rho: 0.95 },
+  sp500: { s0: 115, mu: 0.1, sigma: 0.17, rho: 0.9 },
+  'stoxx-600': { s0: 270, mu: 0.07, sigma: 0.15, rho: 0.75 },
+  'em-asia': { s0: 48, mu: 0.06, sigma: 0.2, rho: 0.6 },
+  'em-latam': { s0: 20, mu: 0.05, sigma: 0.26, rho: 0.5 },
+  gold: { s0: 110, mu: 0.12, sigma: 0.16, rho: 0.1 },
 };
 
 function mulberry32(seed) {

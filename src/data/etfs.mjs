@@ -1,6 +1,6 @@
 // Single source of truth for the tracked universe.
 // All products: Amundi, listed on Euronext Paris, quoted in EUR, accumulating.
-// `yahoo` is the symbol used by the data pipeline (scripts/fetch-data.mjs).
+// The pipeline fetches `isin`-`mic` from Euronext, with `yahoo` as fallback symbol.
 
 export const ETFS = [
   {
@@ -9,6 +9,7 @@ export const ETFS = [
     ticker: 'CW8',
     yahoo: 'CW8.PA',
     isin: 'LU1681043599',
+    mic: 'XPAR', // Euronext Paris
     name: 'Amundi MSCI World Swap UCITS ETF EUR Acc',
     short: 'MSCI World',
     index: 'MSCI World',
@@ -24,6 +25,7 @@ export const ETFS = [
     ticker: '500',
     yahoo: '500.PA',
     isin: 'LU1681048804',
+    mic: 'XPAR', // Euronext Paris
     name: 'Amundi S&P 500 Swap UCITS ETF EUR Acc',
     short: 'S&P 500',
     index: 'S&P 500',
@@ -39,6 +41,7 @@ export const ETFS = [
     ticker: 'MEUD',
     yahoo: 'MEUD.PA',
     isin: 'LU0908500753',
+    mic: 'XPAR', // Euronext Paris
     name: 'Amundi Core STOXX Europe 600 UCITS ETF Acc',
     short: 'STOXX Europe 600',
     index: 'STOXX Europe 600',
@@ -54,6 +57,7 @@ export const ETFS = [
     ticker: 'AASI',
     yahoo: 'AASI.PA',
     isin: 'LU1681044480',
+    mic: 'XPAR', // Euronext Paris
     name: 'Amundi MSCI EM Asia UCITS ETF EUR Acc',
     short: 'Emerging Asia',
     index: 'MSCI Emerging Markets Asia',
@@ -69,6 +73,7 @@ export const ETFS = [
     ticker: 'ALAT',
     yahoo: 'ALAT.PA',
     isin: 'LU1681045024',
+    mic: 'XPAR', // Euronext Paris
     name: 'Amundi MSCI EM Latin America UCITS ETF EUR Acc',
     short: 'Emerging Latin America',
     index: 'MSCI Emerging Markets Latin America',
@@ -84,6 +89,7 @@ export const ETFS = [
     ticker: 'GOLD',
     yahoo: 'GOLD.PA',
     isin: 'FR0013416716',
+    mic: 'XPAR', // Euronext Paris
     name: 'Amundi Physical Gold ETC',
     short: 'Gold',
     index: 'LBMA Gold Price',

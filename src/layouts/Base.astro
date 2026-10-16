@@ -1,4 +1,12 @@
 ---
+// Fonts are self-hosted (no request to Google or any third party).
+import '@fontsource/inter/latin-400.css';
+import '@fontsource/inter/latin-500.css';
+import '@fontsource/inter/latin-600.css';
+import '@fontsource/inter/latin-700.css';
+import '@fontsource/inter/latin-800.css';
+import '@fontsource/jetbrains-mono/latin-400.css';
+import '@fontsource/jetbrains-mono/latin-600.css';
 import '../styles/global.css';
 import market from '../data/market.json';
 import { url, longDate } from '../lib/format';
@@ -28,12 +36,6 @@ const asOf = Object.values(market.etfs)[0]?.asOf;
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
   </head>
@@ -78,13 +80,21 @@ const asOf = Object.values(market.etfs)[0]?.asOf;
     <footer>
       <div class="wrap foot">
         <p>
-          <strong>Not investment advice.</strong> This site is an educational project. It shows past prices and mechanical
-          indicators; none of it is a recommendation to buy or sell anything. Past performance does not predict future
-          returns.
+          <strong>Not investment advice.</strong> Leon Market Compass is a personal, non-commercial educational project.
+          It shows past prices and mechanical indicators only. Nothing on this site is a recommendation, an offer or a
+          solicitation to buy or sell any financial instrument. Investing involves a risk of capital loss; past performance
+          does not predict future returns.
         </p>
         <p class="faint">
-          Data: {market.source}{asOf && ` · last session ${longDate(asOf)}`} · Built with Astro, deployed on GitHub
-          Pages.
+          Data: {market.source}{asOf && ` · last session ${longDate(asOf)}`}. Index and product names are trademarks of
+          their owners; this site is not affiliated with or endorsed by them.
+        </p>
+        <p class="links">
+          <a href={url('/legal')}>Legal notice &amp; disclaimer</a>
+          <span class="faint">·</span>
+          <a href={url('/legal#fr')}>Mentions légales</a>
+          <span class="faint">·</span>
+          <span class="faint">No cookies, no tracking</span>
         </p>
       </div>
     </footer>
@@ -112,6 +122,7 @@ const asOf = Object.values(market.etfs)[0]?.asOf;
   nav a[aria-current='page'] { color: var(--text); background: var(--panel-2); }
   footer { border-top: 1px solid var(--line); margin-top: 40px; padding: 36px 0 48px; font-size: 0.9rem; color: var(--muted); }
   .foot p { max-width: 80ch; }
+  .links { display: flex; gap: 10px; flex-wrap: wrap; }
   @media (max-width: 720px) {
     .bar { padding: 10px 0; }
     nav { overflow-x: auto; flex-wrap: nowrap; width: 100%; padding-bottom: 4px; }

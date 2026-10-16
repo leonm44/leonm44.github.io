@@ -18,7 +18,7 @@ Live site: https://leonm44.github.io
 
 ```
 GitHub Actions (weekdays, after Euronext close)
-  └─ scripts/fetch-data.mjs   download 2 years of daily OHLCV (Yahoo Finance), validate
+  └─ scripts/fetch-data.mjs   download 2 years of daily OHLCV (Euronext, Yahoo fallback), validate
        └─ scripts/lib/analyze.mjs      performance, risk, indicators, pattern, text summary
             └─ src/data/market.json
                  └─ astro build → static HTML + SVG charts → GitHub Pages
@@ -33,7 +33,7 @@ GitHub Actions (weekdays, after Euronext close)
 ```bash
 npm install
 npm run data:sample   # simulated data, offline (a banner flags it on every page)
-# or: npm run data:fetch   # real data, needs internet access to Yahoo Finance
+# or: npm run data:fetch   # real data, needs internet access to Euronext
 npm run dev           # http://localhost:4321
 ```
 

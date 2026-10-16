@@ -57,13 +57,13 @@ const generated = market.generatedAt.slice(0, 10);
       <h2>2. The data pipeline</h2>
       <div class="pipeline">
         <div class="step panel"><span class="n">1</span><h3>Schedule</h3><p>A GitHub Actions job runs every weekday evening, after the Euronext close.</p></div>
-        <div class="step panel"><span class="n">2</span><h3>Fetch</h3><p>Two years of daily open, high, low, close and volume per product, from Yahoo Finance.</p></div>
+        <div class="step panel"><span class="n">2</span><h3>Fetch</h3><p>Two years of daily open, high, low, close and volume per product, from Euronext's official historical prices (Yahoo Finance as fallback).</p></div>
         <div class="step panel"><span class="n">3</span><h3>Validate</h3><p>Currency must be EUR, missing days dropped, duplicates removed, any daily move above 25% rejected as bad data.</p></div>
         <div class="step panel"><span class="n">4</span><h3>Compute</h3><p>Indicators, performance, risk, correlations and the text summaries, written to one JSON file.</p></div>
         <div class="step panel"><span class="n">5</span><h3>Build &amp; deploy</h3><p>Astro renders static pages and charts; GitHub Pages serves them.</p></div>
       </div>
       <div class="note">
-        <strong>Fail-safe by design.</strong> Yahoo Finance is free but unofficial. If any series fails validation, the
+        <strong>Fail-safe by design.</strong> If a series cannot be fetched from either source or fails validation, the
         job stops and the previous version of the site stays online: stale data is shown with its date, wrong data is
         never published. Last data file generated on {longDate(generated)}.
       </div>

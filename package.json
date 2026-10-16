@@ -8,11 +8,19 @@
     "preview": "astro preview",
     "data:fetch": "node scripts/fetch-data.mjs",
     "data:sample": "node scripts/make-sample.mjs",
-    "test": "node --test scripts/*.test.mjs"
+    "test": "node --test scripts/*.test.mjs",
+    "data:map": "node scripts/make-world-dots.mjs"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.1.0",
+    "@fontsource/jetbrains-mono": "^5.1.0",
     "astro": "^7.4.0"
   },
   "type": "module",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "d3-geo": "^3.1.1",
+    "topojson-client": "^3.1.0",
+    "world-atlas": "^2.0.2"
+  }
 }
